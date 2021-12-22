@@ -19,10 +19,11 @@ const PlaceOne = () => {
         <div>
             {orders.map((order) => {
                 return (
-                    <div className='order-individual'>
+                    <div key={order.OrderId} className='order-individual'>
                         <p>First Name: {order.CustomerFirstName}</p>
                         <p>Last Name: {order.CustomerLastName}</p>
                         <p>Captured Date: {order.CapturedDate}</p>
+                        <p>Email: {order.CustomerEmail}</p>
                         <p>Id: {order.OrderId}</p>
                         <p>Total: {order.OrderTotal}</p>
                         <hr/>
