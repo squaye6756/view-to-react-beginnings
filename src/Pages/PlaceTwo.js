@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import OrderLineModal from '../components/OrderLineModal.js';
+import constants from '../constants/Constants.js';
 
 const PlaceTwo = () => {
     const [orders, setOrders] = useState([]);
@@ -11,6 +12,24 @@ const PlaceTwo = () => {
         axios.get('http://localhost:3000/orders')
         .then((response) => {
             setOrders(response.data);
+        });
+    }
+
+    const mockSearch = () => {
+        axios.post(
+            constants[0],
+            {
+                resultSize: constants[1],
+                email: emailSearch
+            }
+        )
+        .then((response) => {
+            setValidOrders(response.data.filter((order) => {
+                return ((order.OrderTotal > 0))
+            }));
+        })
+        .then((err) => {
+            console.log(err.message);
         });
     }
 
