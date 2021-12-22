@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
+import OrderLineModal from '../components/OrderLineModal.js';
 
 const PlaceTwo = () => {
     const [orders, setOrders] = useState([]);
@@ -19,6 +20,11 @@ const PlaceTwo = () => {
 
     const clearInput = () => {
         document.getElementById('email-search').value = '';
+    }
+
+    const showOLDetails = (id) => {
+        const modal = document.getElementById(`modal-${id}`);
+        modal.style.display = 'block';
     }
 
     const handleSearch = (event) => {
@@ -60,17 +66,19 @@ const PlaceTwo = () => {
                 <tbody>
                     {validOrders.map((order) => {
                         return (
-                            <tr key={order.OrderId} className='order-individual-by-search'>
-                                <td>{order.CustomerFirstName}</td>
-                                <td>{order.CustomerLastName}</td>
-                                <td>{order.CapturedDate}</td>
-                                <td>{order.OrderId}</td>
-                                <td>{order.OrderTotal}</td>
-                                <td>Details Length: {order.OrderLine.length}</td>
-                                /*
-                                OL id, itemmdesc, itemcolordesc, quantity, OL SUBtotal
-                                */
-                            </tr>
+                            <>
+                                <tr key={order.OrderId} className='order-individual-by-search'>
+                                    <td>{order.CustomerFirstName}</td>
+                                    <td>{order.CustomerLastName}</td>
+                                    <td>{order.CapturedDate}</td>
+                                    <td>{order.OrderId}</td>
+                                    <td>{order.OrderTotal}</td>
+                                    <td onClick={() => {showOLDetails(order.OrderId)}}>
+                                        Details Length: {order.OrderLine.length}
+                                    </td>
+                                </tr>
+                                <OrderLineModal orderOrig={order} orderLineData={order.OrderLine}/>
+                            </>
                         )
                     })}
                 </tbody>
